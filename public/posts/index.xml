@@ -2,17 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on My New Hugo Site</title>
-    <link>http://example.org/posts/</link>
+    <link>https://echoleung.github.io/posts/</link>
     <description>Recent content in Posts on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Nov 2021 18:09:24 +0800</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Nov 2021 18:12:59 +0800</lastBuildDate><atom:link href="https://echoleung.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nihao</title>
+      <link>https://echoleung.github.io/posts/nihao/</link>
+      <pubDate>Wed, 10 Nov 2021 18:12:59 +0800</pubDate>
+      
+      <guid>https://echoleung.github.io/posts/nihao/</guid>
+      <description>你好！</description>
+    </item>
+    
     <item>
       <title>Hello World</title>
-      <link>http://example.org/posts/hello-world/</link>
+      <link>https://echoleung.github.io/posts/hello-world/</link>
       <pubDate>Wed, 10 Nov 2021 18:09:24 +0800</pubDate>
       
-      <guid>http://example.org/posts/hello-world/</guid>
+      <guid>https://echoleung.github.io/posts/hello-world/</guid>
       <description>Hello </description>
     </item>
     
