@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>时间复杂度_排序 | My New Hugo Site</title>
+<meta name="keywords" content="" />
+<meta name="description" content="# 时间复杂度_排序
+# 认识时间复杂度
+常数时间的操作:一个操作如果和数据量没有关系，每次都是固定时间内完成的操作，叫做常数操作。
+时间复杂度为一个算法流程中，常数操作数量的指标。常用O(读作big O)来表示。具体来说，在常数操作数量的表达式中，*只要高阶项，不要低阶项，也不要高阶项的系数*，剩下的部分
+如果记为f(N)，那么时间复杂度为O(f(N))。
+评价一个算法流程的好坏，*先看时间复杂度的指标*，然后再分析不同数据样本下的实际运行时间，也就是常数项时间。
+## 例子一
+一个有序数组A，另一个无序数组B，请打印B中的所有不在A中的数，A数组长度为N，B数组长度为M。
+- 算法流程1:对于数组B中的每一个数，都在A中通过遍历的方式找一下;
+​ - 时间复杂度：$O(N\times M)$
+- 算法流程2:对于数组B中的每一个数，都在A中通过二分的方式找一下;
+​ - 二分查找的复杂度：$O(\log_2N)$
+​ - 总时间复杂度：$O(M\log_2N)$
+- 算法流程3:先把数组B排序，然后用类似外排的方式打印所有在A中出现的数;
+​ - 双指针，比较当前指向的数大小，小的就移动
+​ - B排序：$O(M\times \log_2M)$
+​ - 查找：$O(N &#43; M)$
+​ - 时间复杂度：$O(M\times \log_2M)&#43;O(N &#43; M)$，无法判断，就全部写出来
+三个流程，三种时间复杂度的表达。
+## 例子二：对数器的概念和使用
+有一个你想要测的方法a：
+\1. 实现一个绝对正确但是复杂度不好的方法b
+\2. 实现一个随机样本产生器
+\3. 实现比对的方法
+\4. 把方法a和方法b比对很多次来验证方法a是否正确。
+\5. 如果有一个样本使得比对出错，打印样本分析是哪个方法出错
+\6. 当样本数量很多时比对测试依然正确，可以确定方法a已经正确。
+## 例子三：冒泡排序细节的讲解与复杂度分析
+时间复杂度$O(N^2)$，额外空间复杂度$O(1)$
+```java
+public class Code_BubbleSort {">
+<meta name="author" content="">
+<link rel="canonical" href="https://echoleung.github.io/posts/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6_%E6%8E%92%E5%BA%8F/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css" integrity="sha256-b2AFbUTT9&#43;tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://echoleung.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://echoleung.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://echoleung.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://echoleung.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://echoleung.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.89.2" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="时间复杂度_排序" />
+<meta property="og:description" content="# 时间复杂度_排序
+# 认识时间复杂度
+常数时间的操作:一个操作如果和数据量没有关系，每次都是固定时间内完成的操作，叫做常数操作。
+时间复杂度为一个算法流程中，常数操作数量的指标。常用O(读作big O)来表示。具体来说，在常数操作数量的表达式中，*只要高阶项，不要低阶项，也不要高阶项的系数*，剩下的部分
+如果记为f(N)，那么时间复杂度为O(f(N))。
+评价一个算法流程的好坏，*先看时间复杂度的指标*，然后再分析不同数据样本下的实际运行时间，也就是常数项时间。
+## 例子一
+一个有序数组A，另一个无序数组B，请打印B中的所有不在A中的数，A数组长度为N，B数组长度为M。
+- 算法流程1:对于数组B中的每一个数，都在A中通过遍历的方式找一下;
+​ - 时间复杂度：$O(N\times M)$
+- 算法流程2:对于数组B中的每一个数，都在A中通过二分的方式找一下;
+​ - 二分查找的复杂度：$O(\log_2N)$
+​ - 总时间复杂度：$O(M\log_2N)$
+- 算法流程3:先把数组B排序，然后用类似外排的方式打印所有在A中出现的数;
+​ - 双指针，比较当前指向的数大小，小的就移动
+​ - B排序：$O(M\times \log_2M)$
+​ - 查找：$O(N &#43; M)$
+​ - 时间复杂度：$O(M\times \log_2M)&#43;O(N &#43; M)$，无法判断，就全部写出来
+三个流程，三种时间复杂度的表达。
+## 例子二：对数器的概念和使用
+有一个你想要测的方法a：
+\1. 实现一个绝对正确但是复杂度不好的方法b
+\2. 实现一个随机样本产生器
+\3. 实现比对的方法
+\4. 把方法a和方法b比对很多次来验证方法a是否正确。
+\5. 如果有一个样本使得比对出错，打印样本分析是哪个方法出错
+\6. 当样本数量很多时比对测试依然正确，可以确定方法a已经正确。
+## 例子三：冒泡排序细节的讲解与复杂度分析
+时间复杂度$O(N^2)$，额外空间复杂度$O(1)$
+```java
+public class Code_BubbleSort {" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://echoleung.github.io/posts/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6_%E6%8E%92%E5%BA%8F/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-10T22:20:51&#43;08:00" />
+<meta property="article:modified_time" content="2021-11-10T22:20:51&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="时间复杂度_排序"/>
+<meta name="twitter:description" content="# 时间复杂度_排序
+# 认识时间复杂度
+常数时间的操作:一个操作如果和数据量没有关系，每次都是固定时间内完成的操作，叫做常数操作。
+时间复杂度为一个算法流程中，常数操作数量的指标。常用O(读作big O)来表示。具体来说，在常数操作数量的表达式中，*只要高阶项，不要低阶项，也不要高阶项的系数*，剩下的部分
+如果记为f(N)，那么时间复杂度为O(f(N))。
+评价一个算法流程的好坏，*先看时间复杂度的指标*，然后再分析不同数据样本下的实际运行时间，也就是常数项时间。
+## 例子一
+一个有序数组A，另一个无序数组B，请打印B中的所有不在A中的数，A数组长度为N，B数组长度为M。
+- 算法流程1:对于数组B中的每一个数，都在A中通过遍历的方式找一下;
+​ - 时间复杂度：$O(N\times M)$
+- 算法流程2:对于数组B中的每一个数，都在A中通过二分的方式找一下;
+​ - 二分查找的复杂度：$O(\log_2N)$
+​ - 总时间复杂度：$O(M\log_2N)$
+- 算法流程3:先把数组B排序，然后用类似外排的方式打印所有在A中出现的数;
+​ - 双指针，比较当前指向的数大小，小的就移动
+​ - B排序：$O(M\times \log_2M)$
+​ - 查找：$O(N &#43; M)$
+​ - 时间复杂度：$O(M\times \log_2M)&#43;O(N &#43; M)$，无法判断，就全部写出来
+三个流程，三种时间复杂度的表达。
+## 例子二：对数器的概念和使用
+有一个你想要测的方法a：
+\1. 实现一个绝对正确但是复杂度不好的方法b
+\2. 实现一个随机样本产生器
+\3. 实现比对的方法
+\4. 把方法a和方法b比对很多次来验证方法a是否正确。
+\5. 如果有一个样本使得比对出错，打印样本分析是哪个方法出错
+\6. 当样本数量很多时比对测试依然正确，可以确定方法a已经正确。
+## 例子三：冒泡排序细节的讲解与复杂度分析
+时间复杂度$O(N^2)$，额外空间复杂度$O(1)$
+```java
+public class Code_BubbleSort {"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://echoleung.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "时间复杂度_排序",
+      "item": "https://echoleung.github.io/posts/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6_%E6%8E%92%E5%BA%8F/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "时间复杂度_排序",
+  "name": "时间复杂度_排序",
+  "description": "# 时间复杂度_排序\n# 认识时间复杂度\n常数时间的操作:一个操作如果和数据量没有关系，每次都是固定时间内完成的操作，叫做常数操作。\n时间复杂度为一个算法流程中，常数操作数量的指标。常用O(读作big O)来表示。具体来说，在常数操作数量的表达式中，*只要高阶项，不要低阶项，也不要高阶项的系数*，剩下的部分\n如果记为f(N)，那么时间复杂度为O(f(N))。\n评价一个算法流程的好坏，*先看时间复杂度的指标*，然后再分析不同数据样本下的实际运行时间，也就是常数项时间。\n## 例子一\n一个有序数组A，另一个无序数组B，请打印B中的所有不在A中的数，A数组长度为N，B数组长度为M。\n- 算法流程1:对于数组B中的每一个数，都在A中通过遍历的方式找一下;\n​ - 时间复杂度：$O(N\\times M)$\n- 算法流程2:对于数组B中的每一个数，都在A中通过二分的方式找一下;\n​ - 二分查找的复杂度：$O(\\log_2N)$\n​ - 总时间复杂度：$O(M\\log_2N)$\n- 算法流程3:先把数组B排序，然后用类似外排的方式打印所有在A中出现的数;\n​ - 双指针，比较当前指向的数大小，小的就移动\n​ - B排序：$O(M\\times \\log_2M)$\n​ - 查找：$O(N + M)$\n​ - 时间复杂度：$O(M\\times \\log_2M)+O(N + M)$，无法判断，就全部写出来\n三个流程，三种时间复杂度的表达。\n## 例子二：对数器的概念和使用\n有一个你想要测的方法a：\n\\1. 实现一个绝对正确但是复杂度不好的方法b\n\\2. 实现一个随机样本产生器\n\\3. 实现比对的方法\n\\4. 把方法a和方法b比对很多次来验证方法a是否正确。\n\\5. 如果有一个样本使得比对出错，打印样本分析是哪个方法出错\n\\6. 当样本数量很多时比对测试依然正确，可以确定方法a已经正确。\n## 例子三：冒泡排序细节的讲解与复杂度分析\n时间复杂度$O(N^2)$，额外空间复杂度$O(1)$\n```java\npublic class Code_BubbleSort {",
+  "keywords": [
+    
+  ],
+  "articleBody": "# 时间复杂度_排序\n# 认识时间复杂度\n常数时间的操作:一个操作如果和数据量没有关系，每次都是固定时间内完成的操作，叫做常数操作。\n时间复杂度为一个算法流程中，常数操作数量的指标。常用O(读作big O)来表示。具体来说，在常数操作数量的表达式中，*只要高阶项，不要低阶项，也不要高阶项的系数*，剩下的部分\n如果记为f(N)，那么时间复杂度为O(f(N))。\n评价一个算法流程的好坏，*先看时间复杂度的指标*，然后再分析不同数据样本下的实际运行时间，也就是常数项时间。\n## 例子一\n一个有序数组A，另一个无序数组B，请打印B中的所有不在A中的数，A数组长度为N，B数组长度为M。\n- 算法流程1:对于数组B中的每一个数，都在A中通过遍历的方式找一下;\n​ - 时间复杂度：$O(N\\times M)$\n- 算法流程2:对于数组B中的每一个数，都在A中通过二分的方式找一下;\n​ - 二分查找的复杂度：$O(\\log_2N)$\n​ - 总时间复杂度：$O(M\\log_2N)$\n- 算法流程3:先把数组B排序，然后用类似外排的方式打印所有在A中出现的数;\n​ - 双指针，比较当前指向的数大小，小的就移动\n​ - B排序：$O(M\\times \\log_2M)$\n​ - 查找：$O(N + M)$\n​ - 时间复杂度：$O(M\\times \\log_2M)+O(N + M)$，无法判断，就全部写出来\n三个流程，三种时间复杂度的表达。\n## 例子二：对数器的概念和使用\n有一个你想要测的方法a：\n\\1. 实现一个绝对正确但是复杂度不好的方法b\n\\2. 实现一个随机样本产生器\n\\3. 实现比对的方法\n\\4. 把方法a和方法b比对很多次来验证方法a是否正确。\n\\5. 如果有一个样本使得比对出错，打印样本分析是哪个方法出错\n\\6. 当样本数量很多时比对测试依然正确，可以确定方法a已经正确。\n## 例子三：冒泡排序细节的讲解与复杂度分析\n时间复杂度$O(N^2)$，额外空间复杂度$O(1)$\n```java\npublic class Code_BubbleSort {\n​ public static void bubbleSort(int[] arr) {\n​ if (arr == null || arr.length ​ return;\n​ }\n​ //每次排完之后，最末尾的位置已经有序，end–\n​ for (int e = arr.length - 1; e  0; e–) {\n​ for (int i = 0; i ​ if (arr[i]  arr[i + 1]) {\n​ swap(arr, i, i + 1);\n​ }\n​ }\n​ }\n​ }\n​ public static void swap(int[] arr, int i, int j) {\n​ arr[i] = arr[i] ^ arr[j];\n​ arr[j] = arr[i] ^ arr[j];\n​ arr[i] = arr[i] ^ arr[j];\n​ }\n}\n```\n## 例子四：选择排序的细节讲解与复杂度分析\n时间复杂度$O(N^2)$，额外空间复杂度$O(1)$\n```java\npublic class Code_SelectionSort {\n​ public static void selectionSort(int[] arr) {\n​ if (arr == null || arr.length ​ return;\n​ }\n​ for (int i = 0; i ​ int minIndex = i;\n​ for (int j = i + 1; j ​ minIndex = arr[j] ​ }\n​ swap(arr, i, minIndex);\n​ }\n​ }\n​ public static void swap(int[] arr, int i, int j) {\n​ int tmp = arr[i];\n​ arr[i] = arr[j];\n​ arr[j] = tmp;\n​ }\n}\n```\n## 例子五：插入排序的细节讲解与复杂度分析\n顺序时的复杂度为$O(N)$，逆序时，复杂度为$O(N^2)$，按照最差的作为时间复杂度。\n时间复杂度$O(N^2)$，额外空间复杂度$O(1)$\n```java\npublic class Code_InsertionSort {\n​ public static void insertionSort(int[] arr) {\n​ if (arr == null || arr.length ​ return;\n​ }\n​ for (int i = 1; i ​ for (int j = i - 1; j = 0 \u0026\u0026 arr[j]  arr[j + 1]; j–) {\n​ swap(arr, j, j + 1);\n​ }\n​ }\n​ }\n​ public static void swap(int[] arr, int i, int j) {\n​ arr[i] = arr[i] ^ arr[j];\n​ arr[j] = arr[i] ^ arr[j];\n​ arr[i] = arr[i] ^ arr[j];\n​ }\n}\n```\n## 例子六：剖析递归行为和递归行为时间复杂度的估算\n*master公式的使用:*\n$T(N) = a*T(N/b) + O(N^d)$\n- $\\log_ba  d \\rightarrow$复杂度为$O(N^{\\log(b,a)})$\n- $\\log_ba = d\\rightarrow$ 复杂度为$O(N^d * \\log N)$\n- $\\log_ba 补充阅读：算法的复杂度与 Master 定理\n## 例子七：归并排序的细节讲解与复杂度分析\n时间复杂度$O(N*\\log N)$，额外空间复杂度$O(N)$\n```java\npublic class Code_MergeSort {\n​ public static void mergeSort(int[] arr) {\n​ if (arr == null || arr.length ​ return;\n​ }\n​ mergeSort(arr, 0, arr.length - 1);\n​ }\n​ public static void mergeSort(int[] arr, int l, int r) {\n​ if (l == r) {\n​ return;\n​ }\n​ int mid = l + ((r - l) » 1);\n​ mergeSort(arr, l, mid);\n​ mergeSort(arr, mid + 1, r);\n​ merge(arr, l, mid, r);\n​ }\n​ public static void merge(int[] arr, int l, int m, int r) {\n​ int[] help = new int[r - l + 1];\n​ int i = 0;\n​ int p1 = l;\n​ int p2 = m + 1;\n​ while (p1 ​ help[i++] = arr[p1] ​ }\n​ while (p1 ​ help[i++] = arr[p1++];\n​ }\n​ while (p2 ​ help[i++] = arr[p2++];\n​ }\n​ for (i = 0; i ​ arr[l + i] = help[i];\n​ }\n​ }\n}\n```\n### 小和问题\n 在一个数组中，每一个数左边比当前数小的数累加起来，叫做这个数组的小和。求一个数组\n的小和。\n\n\n 例子:\n [1,3,4,2,5]\n 1左边比1小的数，没有;\n 3左边比3小的数，1;\n 4左边比4小的数，1、3;\n 2左边比2小的数，1;\n 5左边比5小的数，1、3、4、2;\n 所以小和为1+1+3+1+1+3+4+2=16\n```java\npublic class Code_12_SmallSum {\n​ public static int smallSum(int[] arr) {\n​ if (arr == null || arr.length ​ return 0;\n​ }\n​ return mergeSort(arr, 0, arr.length - 1);\n​ }\n​ public static int mergeSort(int[] arr, int l, int r) {\n​ if (l == r) {\n​ return 0;\n​ }\n​ int mid = l + ((r - l) » 1);\n​ return mergeSort(arr, l, mid) + mergeSort(arr, mid + 1, r) + merge(arr, l, mid, r);\n​ }\n​ public static int merge(int[] arr, int l, int m, int r) {\n​ int[] help = new int[r - l + 1];\n​ int i = 0;\n​ int p1 = l;\n​ int p2 = m + 1;\n​ int res = 0;\n​ while (p1 ​ res += arr[p1] ​ help[i++] = arr[p1] ​ }\n​ while (p1 ​ help[i++] = arr[p1++];\n​ }\n​ while (p2 ​ help[i++] = arr[p2++];\n​ }\n​ for (i = 0; i ​ arr[l + i] = help[i];\n​ }\n​ return res;\n​ }\n}\n```\n### 逆序对问题\n",
+  "wordCount" : "852",
+  "inLanguage": "en",
+  "datePublished": "2021-11-10T22:20:51+08:00",
+  "dateModified": "2021-11-10T22:20:51+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://echoleung.github.io/posts/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6_%E6%8E%92%E5%BA%8F/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "My New Hugo Site",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://echoleung.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://echoleung.github.io/" accesskey="h" title="My New Hugo Site (Alt + H)">My New Hugo Site</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      时间复杂度_排序
+    </h1>
+    <div class="post-meta"><span title='2021-11-10 22:20:51 +0800 CST'>November 10, 2021</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p><strong># 时间复杂度_排序</strong></p>
+<p><strong># 认识时间复杂度</strong></p>
+<p>常数时间的操作:一个操作如果和数据量没有关系，每次都是固定时间内完成的操作，叫做常数操作。</p>
+<p>时间复杂度为一个算法流程中，常数操作数量的指标。常用O(读作big O)来表示。具体来说，在常数操作数量的表达式中，<em><strong>*只要高阶项，不要低阶项，也不要高阶项的系数*</strong></em>，剩下的部分</p>
+<p>如果记为f(N)，那么时间复杂度为O(f(N))。</p>
+<p>评价一个算法流程的好坏，<em><strong>*先看时间复杂度的指标*</strong></em>，然后再分析不同数据样本下的实际运行时间，也就是常数项时间。</p>
+<p><strong>## 例子一</strong></p>
+<p>一个有序数组A，另一个无序数组B，请打印B中的所有不在A中的数，A数组长度为N，B数组长度为M。</p>
+<p>- 算法流程1:对于数组B中的每一个数，都在A中通过遍历的方式找一下;</p>
+<p>​    - 时间复杂度：$O(N\times M)$</p>
+<p>- 算法流程2:对于数组B中的每一个数，都在A中通过二分的方式找一下;</p>
+<p>​    - 二分查找的复杂度：$O(\log_2N)$</p>
+<p>​    - 总时间复杂度：$O(M\log_2N)$</p>
+<p>- 算法流程3:先把数组B排序，然后用类似外排的方式打印所有在A中出现的数;</p>
+<p>​    - 双指针，比较当前指向的数大小，小的就移动</p>
+<p>​    - B排序：$O(M\times \log_2M)$</p>
+<p>​    - 查找：$O(N + M)$</p>
+<p>​    - 时间复杂度：$O(M\times \log_2M)+O(N + M)$，无法判断，就全部写出来</p>
+<p>三个流程，三种时间复杂度的表达。</p>
+<p><strong>## 例子二：对数器的概念和使用</strong></p>
+<p>有一个你想要测的方法a：</p>
+<p>\1. 实现一个绝对正确但是复杂度不好的方法b</p>
+<p>\2. 实现一个随机样本产生器</p>
+<p>\3. 实现比对的方法</p>
+<p>\4. 把方法a和方法b比对很多次来验证方法a是否正确。</p>
+<p>\5. 如果有一个样本使得比对出错，打印样本分析是哪个方法出错</p>
+<p>\6. 当样本数量很多时比对测试依然正确，可以确定方法a已经正确。</p>
+<p><strong>## 例子三：冒泡排序细节的讲解与复杂度分析</strong></p>
+<p>时间复杂度$O(N^2)$，额外空间复杂度$O(1)$</p>
+<p>```java</p>
+<p><strong>public</strong> <strong>class</strong> Code_BubbleSort {</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> bubbleSort(<strong>int</strong>[] arr) {</p>
+<p>​        if (arr == null || arr.length &lt; 2) {</p>
+<p>​            return;</p>
+<p>​        }</p>
+<p>​        <em>//每次排完之后，最末尾的位置已经有序，end&ndash;</em></p>
+<p>​        for (<strong>int</strong> e = arr.length - 1; e &gt; 0; e&ndash;) {</p>
+<p>​            for (<strong>int</strong> i = 0; i &lt; e; i++) {</p>
+<p>​                if (arr[i] &gt; arr[i + 1]) {</p>
+<p>​                    swap(arr, i, i + 1);</p>
+<p>​                }</p>
+<p>​            }</p>
+<p>​        }</p>
+<p>​    }</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> swap(<strong>int</strong>[] arr, <strong>int</strong> i, <strong>int</strong> j) {</p>
+<p>​        arr[i] = arr[i] ^ arr[j];</p>
+<p>​        arr[j] = arr[i] ^ arr[j];</p>
+<p>​        arr[i] = arr[i] ^ arr[j];</p>
+<p>​    }</p>
+<p>}</p>
+<p>```</p>
+<p><strong>## 例子四：选择排序的细节讲解与复杂度分析</strong></p>
+<p>时间复杂度$O(N^2)$，额外空间复杂度$O(1)$</p>
+<p>```java</p>
+<p><strong>public</strong> <strong>class</strong> Code_SelectionSort {</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> selectionSort(<strong>int</strong>[] arr) {</p>
+<p>​        if (arr == null || arr.length &lt; 2) {</p>
+<p>​            return;</p>
+<p>​        }</p>
+<p>​        for (<strong>int</strong> i = 0; i &lt; arr.length - 1; i++) {</p>
+<p>​            <strong>int</strong> minIndex = i;</p>
+<p>​            for (<strong>int</strong> j = i + 1; j &lt; arr.length; j++) {</p>
+<p>​                minIndex = arr[j] &lt; arr[minIndex] ? j : minIndex;</p>
+<p>​            }</p>
+<p>​            swap(arr, i, minIndex);</p>
+<p>​        }</p>
+<p>​    }</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> swap(<strong>int</strong>[] arr, <strong>int</strong> i, <strong>int</strong> j) {</p>
+<p>​        <strong>int</strong> tmp = arr[i];</p>
+<p>​        arr[i] = arr[j];</p>
+<p>​        arr[j] = tmp;</p>
+<p>​    }</p>
+<p>}</p>
+<p>```</p>
+<p><strong>## 例子五：插入排序的细节讲解与复杂度分析</strong></p>
+<p>顺序时的复杂度为$O(N)$，逆序时，复杂度为$O(N^2)$，按照最差的作为时间复杂度。</p>
+<p>时间复杂度$O(N^2)$，额外空间复杂度$O(1)$</p>
+<p>```java</p>
+<p><strong>public</strong> <strong>class</strong> Code_InsertionSort {</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> insertionSort(<strong>int</strong>[] arr) {</p>
+<p>​        if (arr == null || arr.length &lt; 2) {</p>
+<p>​            return;</p>
+<p>​        }</p>
+<p>​        for (<strong>int</strong> i = 1; i &lt; arr.length; i++) {</p>
+<p>​            for (<strong>int</strong> j = i - 1; j &gt;= 0 &amp;&amp; arr[j] &gt; arr[j + 1]; j&ndash;) {</p>
+<p>​                swap(arr, j, j + 1);</p>
+<p>​            }</p>
+<p>​        }</p>
+<p>​    }</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> swap(<strong>int</strong>[] arr, <strong>int</strong> i, <strong>int</strong> j) {</p>
+<p>​        arr[i] = arr[i] ^ arr[j];</p>
+<p>​        arr[j] = arr[i] ^ arr[j];</p>
+<p>​        arr[i] = arr[i] ^ arr[j];</p>
+<p>​    }</p>
+<p>}</p>
+<p>```</p>
+<p><strong>## 例子六：剖析递归行为和递归行为时间复杂度的估算</strong></p>
+<p><em><strong>*master公式的使用:*</strong></em></p>
+<p>$T(N) = a*T(N/b) + O(N^d)$</p>
+<p>- $\log_ba &gt; d \rightarrow$复杂度为$O(N^{\log(b,a)})$</p>
+<p>- $\log_ba = d\rightarrow$ 复杂度为$O(N^d * \log N)$</p>
+<p>- $\log_ba &lt; d\rightarrow$复杂度为$O(N^d)$</p>
+<p>补充阅读：<a href="https://blog.gocalf.com/algorithm-complexity-and-master-theorem">算法的复杂度与 Master 定理</a></p>
+<p><strong>## 例子七：归并排序的细节讲解与复杂度分析</strong></p>
+<p>时间复杂度$O(N*\log N)$，额外空间复杂度$O(N)$</p>
+<p>```java</p>
+<p><strong>public</strong> <strong>class</strong> Code_MergeSort {</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> mergeSort(<strong>int</strong>[] arr) {</p>
+<p>​        if (arr == null || arr.length &lt; 2) {</p>
+<p>​            return;</p>
+<p>​        }</p>
+<p>​        mergeSort(arr, 0, arr.length - 1);</p>
+<p>​    }</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> mergeSort(<strong>int</strong>[] arr, <strong>int</strong> l, <strong>int</strong> r) {</p>
+<p>​        if (l == r) {</p>
+<p>​            return;</p>
+<p>​        }</p>
+<p>​        <strong>int</strong> mid = l + ((r - l) &raquo; 1);</p>
+<p>​        mergeSort(arr, l, mid);</p>
+<p>​        mergeSort(arr, mid + 1, r);</p>
+<p>​        merge(arr, l, mid, r);</p>
+<p>​    }</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>void</strong> merge(<strong>int</strong>[] arr, <strong>int</strong> l, <strong>int</strong> m, <strong>int</strong> r) {</p>
+<p>​        <strong>int</strong>[] help = new <strong>int</strong>[r - l + 1];</p>
+<p>​        <strong>int</strong> i = 0;</p>
+<p>​        <strong>int</strong> p1 = l;</p>
+<p>​        <strong>int</strong> p2 = m + 1;</p>
+<p>​        while (p1 &lt;= m &amp;&amp; p2 &lt;= r) {</p>
+<p>​            help[i++] = arr[p1] &lt; arr[p2] ? arr[p1++] : arr[p2++];</p>
+<p>​        }</p>
+<p>​        while (p1 &lt;= m) {</p>
+<p>​            help[i++] = arr[p1++];</p>
+<p>​        }</p>
+<p>​        while (p2 &lt;= r) {</p>
+<p>​            help[i++] = arr[p2++];</p>
+<p>​        }</p>
+<p>​        for (i = 0; i &lt; help.length; i++) {</p>
+<p>​            arr[l + i] = help[i];</p>
+<p>​        }</p>
+<p>​    }</p>
+<p>}</p>
+<p>```</p>
+<p><strong>### 小和问题</strong></p>
+<p>&gt; 在一个数组中，每一个数左边比当前数小的数累加起来，叫做这个数组的小和。求一个数组</p>
+<p>的小和。</p>
+<p>&gt;</p>
+<p>&gt;</p>
+<p>&gt; 例子:</p>
+<p>&gt; [1,3,4,2,5]</p>
+<p>&gt; 1左边比1小的数，没有;</p>
+<p>&gt; 3左边比3小的数，1;</p>
+<p>&gt; 4左边比4小的数，1、3;</p>
+<p>&gt; 2左边比2小的数，1;</p>
+<p>&gt; 5左边比5小的数，1、3、4、2;</p>
+<p>&gt; 所以小和为1+1+3+1+1+3+4+2=16</p>
+<p>```java</p>
+<p><strong>public</strong> <strong>class</strong> Code_12_SmallSum {</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>int</strong> smallSum(<strong>int</strong>[] arr) {</p>
+<p>​        if (arr == null || arr.length &lt; 2) {</p>
+<p>​            return 0;</p>
+<p>​        }</p>
+<p>​        return mergeSort(arr, 0, arr.length - 1);</p>
+<p>​    }</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>int</strong> mergeSort(<strong>int</strong>[] arr, <strong>int</strong> l, <strong>int</strong> r) {</p>
+<p>​        if (l == r) {</p>
+<p>​            return 0;</p>
+<p>​        }</p>
+<p>​        <strong>int</strong> mid = l + ((r - l) &raquo; 1);</p>
+<p>​        return mergeSort(arr, l, mid) + mergeSort(arr, mid + 1, r) + merge(arr, l, mid, r);</p>
+<p>​    }</p>
+<p>​    <strong>public</strong> <strong>static</strong> <strong>int</strong> merge(<strong>int</strong>[] arr, <strong>int</strong> l, <strong>int</strong> m, <strong>int</strong> r) {</p>
+<p>​        <strong>int</strong>[] help = new <strong>int</strong>[r - l + 1];</p>
+<p>​        <strong>int</strong> i = 0;</p>
+<p>​        <strong>int</strong> p1 = l;</p>
+<p>​        <strong>int</strong> p2 = m + 1;</p>
+<p>​        <strong>int</strong> res = 0;</p>
+<p>​        while (p1 &lt;= m &amp;&amp; p2 &lt;= r) {</p>
+<p>​            res += arr[p1] &lt; arr[p2] ? (r - p2 + 1) * arr[p1] : 0;</p>
+<p>​            help[i++] = arr[p1] &lt; arr[p2] ? arr[p1++] : arr[p2++];</p>
+<p>​        }</p>
+<p>​        while (p1 &lt;= m) {</p>
+<p>​            help[i++] = arr[p1++];</p>
+<p>​        }</p>
+<p>​        while (p2 &lt;= r) {</p>
+<p>​            help[i++] = arr[p2++];</p>
+<p>​        }</p>
+<p>​        for (i = 0; i &lt; help.length; i++) {</p>
+<p>​            arr[l + i] = help[i];</p>
+<p>​        }</p>
+<p>​        return res;</p>
+<p>​    }</p>
+<p>}</p>
+<p>```</p>
+<p><strong>### 逆序对问题</strong></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2021 <a href="https://echoleung.github.io/">My New Hugo Site</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

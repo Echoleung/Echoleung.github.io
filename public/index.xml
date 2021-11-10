@@ -6,7 +6,46 @@
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Nov 2021 18:09:24 +0800</lastBuildDate><atom:link href="https://echoleung.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Nov 2021 22:20:51 +0800</lastBuildDate><atom:link href="https://echoleung.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>时间复杂度_排序</title>
+      <link>https://echoleung.github.io/posts/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6_%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Wed, 10 Nov 2021 22:20:51 +0800</pubDate>
+      
+      <guid>https://echoleung.github.io/posts/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6_%E6%8E%92%E5%BA%8F/</guid>
+      <description># 时间复杂度_排序
+# 认识时间复杂度
+常数时间的操作:一个操作如果和数据量没有关系，每次都是固定时间内完成的操作，叫做常数操作。
+时间复杂度为一个算法流程中，常数操作数量的指标。常用O(读作big O)来表示。具体来说，在常数操作数量的表达式中，*只要高阶项，不要低阶项，也不要高阶项的系数*，剩下的部分
+如果记为f(N)，那么时间复杂度为O(f(N))。
+评价一个算法流程的好坏，*先看时间复杂度的指标*，然后再分析不同数据样本下的实际运行时间，也就是常数项时间。
+## 例子一
+一个有序数组A，另一个无序数组B，请打印B中的所有不在A中的数，A数组长度为N，B数组长度为M。
+- 算法流程1:对于数组B中的每一个数，都在A中通过遍历的方式找一下;
+​ - 时间复杂度：$O(N\times M)$
+- 算法流程2:对于数组B中的每一个数，都在A中通过二分的方式找一下;
+​ - 二分查找的复杂度：$O(\log_2N)$
+​ - 总时间复杂度：$O(M\log_2N)$
+- 算法流程3:先把数组B排序，然后用类似外排的方式打印所有在A中出现的数;
+​ - 双指针，比较当前指向的数大小，小的就移动
+​ - B排序：$O(M\times \log_2M)$
+​ - 查找：$O(N + M)$
+​ - 时间复杂度：$O(M\times \log_2M)+O(N + M)$，无法判断，就全部写出来
+三个流程，三种时间复杂度的表达。
+## 例子二：对数器的概念和使用
+有一个你想要测的方法a：
+\1. 实现一个绝对正确但是复杂度不好的方法b
+\2. 实现一个随机样本产生器
+\3. 实现比对的方法
+\4. 把方法a和方法b比对很多次来验证方法a是否正确。
+\5. 如果有一个样本使得比对出错，打印样本分析是哪个方法出错
+\6. 当样本数量很多时比对测试依然正确，可以确定方法a已经正确。
+## 例子三：冒泡排序细节的讲解与复杂度分析
+时间复杂度$O(N^2)$，额外空间复杂度$O(1)$
+```java
+public class Code_BubbleSort {</description>
+    </item>
+    
     <item>
       <title>Hello World</title>
       <link>https://echoleung.github.io/posts/hello-world/</link>
