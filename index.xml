@@ -12,6 +12,24 @@
     
     
     <item>
+      <title>Frp内网穿透</title>
+      <link>https://echoleung.github.io/posts/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</link>
+      <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://echoleung.github.io/posts/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</guid>
+      <description>准备工作  一台具有公网IP的设备，我用的是腾讯云的主机 需要进行穿透的内网的设备，我的iMac 内网穿透工具 frp  开始安装 服务器安装 下载frp可执行包
+wget https://github.com/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_linux_amd64.tar.gz 解压
+tar -zxf frp_0.38.0_linux_amd64.tar.gz 进入文件
+cd frp_0.38.0_linux_amd64/ 修改配置
+vi frps.ini [common] bind_port = 7000 token = 123456 启动
+./frps -c frps.ini Mac端安装 下载frp可执行包
+https://github.com/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_darwin_amd64.tar.gz 解压
+tar -zxf frp_0.38.0_darwin_amd64.tar.gz 进入文件
+cd frp_0.38.0_darwin_amd64/ 修改配置
+vim frpc.ini [common] server_addr = x.x.x.x # 公网IP server_port = 7000 token = 123456 [ssh] type = tcp local_ip = 127.0.0.1 local_port = 22 remote_port = 7022 [vnc] type = tcp local_ip = 127.</description>
+    </item>
+    
+    <item>
       <title>Hugo安装记录</title>
       <link>https://echoleung.github.io/posts/hugo%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
