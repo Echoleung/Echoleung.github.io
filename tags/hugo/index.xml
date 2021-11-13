@@ -6,7 +6,7 @@
     <description>Recent content in Hugo on Echoleung&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Nov 2021 13:15:02 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 13 Nov 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://echoleung.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Hugo安装记录</title>
       <link>https://echoleung.github.io/posts/hugo%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/</link>
-      <pubDate>Sat, 13 Nov 2021 13:15:02 +0800</pubDate>
+      <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
       
       <guid>https://echoleung.github.io/posts/hugo%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/</guid>
       <description>安装Hugo 本机的环境是Mac，并且已经安装了Homebrew，直接使用命令安装：
