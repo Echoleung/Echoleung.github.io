@@ -1,11 +1,10 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
-date: {{ .Date }}
+date: {{ now.Format "2006-01-02" }}
 draft: true
 tags: [""]
 categories: [""]
 description: ""
 summary: ""
-draft: false
 ---
 

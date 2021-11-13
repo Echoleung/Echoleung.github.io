@@ -44,7 +44,7 @@ params:
   assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "<link / abs url>"
+    favicon: https://i.loli.net/2021/11/13/Z5teYVOhC4S6Wzc.jpg
     favicon16x16: "<link / abs url>"
     favicon32x32: "<link / abs url>"
     apple_touch_icon: "<link / abs url>"
@@ -72,10 +72,8 @@ params:
 
   # home-info mode
   homeInfoParams:
-    Title: "Welcome to My blog"
-    Content: >
-        - **Be well-grounded and speak up moderately !**
-        - ** 博学而约取，厚积而薄发 **。
+    Title: "欢迎来到我的博客"
+    Content: "博学而约取，厚积而薄发"
 
   socialIcons:
     # - name: twitter
@@ -99,7 +97,7 @@ params:
     hiddenInSingle: true # hide on single page
 
   editPost:
-    URL: "https://github.com/Echoleung/echoleung.github.io/blob/gh-pages/posts"
+    URL: "https://github.com/Echoleung/echoleung.github.io/blob/gh-pages"
     Text: "编辑" # edit text
     appendFilePath: true # to append file path to Edit link
 
@@ -115,17 +113,21 @@ params:
     keys: ["title", "permalink", "summary", "content"]
 menu:
   main:
+    - identifier: Archive
+      name: 时间轴
+      url: /archives/
+      weight: 10
     - identifier: categories
-      name: categories
+      name: 分类
       url: /categories/
       weight: 10
     - identifier: tags
-      name: tags
+      name: 标签
       url: /tags/
       weight: 20
-    - identifier: example
-      name: example.org
-      url: https://example.org
+    - identifier: search
+      name: 搜索
+      url: /search/
       weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 # pygmentsUseClasses: true
