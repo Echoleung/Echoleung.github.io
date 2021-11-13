@@ -87,6 +87,26 @@
 </article>
 <article class=post-entry>
 <header class=entry-header>
+<h2>Frp内网穿透
+</h2>
+</header>
+<section class=entry-content>
+<p>准备工作 一台具有公网IP的设备，我用的是腾讯云的主机 需要进行穿透的内网的设备，我的iMac 内网穿透工具 frp 开始安装 服务器安装 下载frp可执行包
+wget https://github.com/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_linux_amd64.tar.gz 解压
+tar -zxf frp_0.38.0_linux_amd64.tar.gz 进入文件
+cd frp_0.38.0_linux_amd64/ 修改配置
+vi frps.ini [common] bind_port = 7000 token = 123456 启动
+./frps -c frps.ini Mac端安装 下载frp可执行包
+https://github.com/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_darwin_amd64.tar.gz 解压
+tar -zxf frp_0.38.0_darwin_amd64.tar.gz 进入文件
+cd frp_0.38.0_darwin_amd64/ 修改配置
+vim frpc.ini [common] server_addr = x.x.x.x # 公网IP server_port = 7000 token = 123456 [ssh] type = tcp local_ip = 127.0.0.1 local_port = 22 remote_port = 7022 [vnc] type = tcp local_ip = 127....</p>
+</section>
+<footer class=entry-footer><span title="2021-11-13 00:00:00 +0000 UTC">November 13, 131311</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Echo</footer>
+<a class=entry-link aria-label="post link to Frp内网穿透" href=https://echoleung.github.io/posts/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
 <h2>Hugo安装记录
 </h2>
 </header>

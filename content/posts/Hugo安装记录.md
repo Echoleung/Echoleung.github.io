@@ -3,7 +3,7 @@ title: "Hugo安装记录"
 date: 2021-11-13
 draft: true
 tags: ["Hugo"]
-categories: [""]
+categories: ["tech"]
 description: "记录了安装Hugo过程和踩坑"
 summary: ""
 draft: false
