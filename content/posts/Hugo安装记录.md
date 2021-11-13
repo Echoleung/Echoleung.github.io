@@ -106,3 +106,96 @@ hugo server
 
 并在浏览器中输入网址 `http://localhost:1313/` 就可以在浏览器中查看网页效果了。
 
+![KG4VRaIs6F8Bpik](https://i.loli.net/2021/11/13/KG4VRaIs6F8Bpik.png)
+
+# 配合 Github Actions 自动构建
+
+## 初始化 GitHub 仓库
+
+新建一个repo，用来保存我们的 Hugo 的源码。
+
+然后起一个 `gh-pages` 分支，推送到远端，用来当做我们的 GitHub Pages 展示的分支。
+
+GitHub Pages 其实就是一个静态页面展示的一个地方，他利用生成静态页面，直接通过域名来给用户展示。
+
+```shell
+git checkout -b gh-pages
+git push origin gh-pages
+git checkout -b master
+git push origin master
+```
+
+## Actions 自动构建
+
+这里，我们只需要去监听 develop 是否推送就可以了。
+
+构建我们需要做一下流程：
+
+1. 检出代码
+2. 安装 Hugo 环境
+3. 编译 Hugo
+4. 将 public 下的文件夹推送到 gh-pages 分支
+
+我们再 `.github/workflows` 里面新建一个 `gh_pages.yml`:
+
+```yml
+name: GitHub Page Deploy
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v1
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.61.0'
+          # extended: true
+
+      - name: Build Hugo
+        run: |
+          hugo
+
+      - name: Deploy Hugo to gh-pages
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./public
+```
+
+上面代码中，只要配几个参数就可以用。参数之中， 需要我们的秘钥去推送到 gh-pages 分支，使用的是加密变量，需要在项目的 settings/secrets 菜单里面设置。
+
+具体 我们可以看 [peaceiris/actions-gh-pages@v2](https://github.com/peaceiris/actions-gh-pages) 的文档，里面告诉了我们如何加入到 secrets 里面。
+
+## 推送到 Github
+
+最后编写推送到Github的脚本：
+
+```sh
+#!/bin/bash
+
+echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
+
+# Build the project.
+hugo -t even
+
+# Add changes to git.
+git add .
+
+# Commit changes.
+msg="rebuilding site `date`"
+if [ $# -eq 1 ]
+  then msg="$1"
+fi
+git commit -m "$msg"
+
+# Push source and build repos.
+git push origin master
+```
+

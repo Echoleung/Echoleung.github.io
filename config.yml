@@ -99,8 +99,8 @@ params:
     hiddenInSingle: true # hide on single page
 
   editPost:
-    URL: "https://github.com/echoleung.github.io/content"
-    Text: "Suggest Changes" # edit text
+    URL: "https://github.com/Echoleung/echoleung.github.io/blob/gh-pages/posts"
+    Text: "编辑" # edit text
     appendFilePath: true # to append file path to Edit link
 
   # for search
