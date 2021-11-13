@@ -12,7 +12,6 @@
 <meta name=yandex-verification content="XYZabc">
 <meta name=msvalidate.01 content="XYZabc">
 <link crossorigin=anonymous href=/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css integrity="sha256-b2AFbUTT9+tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as=style>
-<link rel=preload href=/apple-touch-icon.png as=image>
 <link rel=icon href=https://echoleung.github.io/%3Clink%20/%20abs%20url%3E>
 <link rel=icon type=image/png sizes=16x16 href=https://echoleung.github.io/%3Clink%20/%20abs%20url%3E>
 <link rel=icon type=image/png sizes=32x32 href=https://echoleung.github.io/%3Clink%20/%20abs%20url%3E>
@@ -41,8 +40,7 @@
 <header class=header>
 <nav class=nav>
 <div class=logo>
-<a href=https://echoleung.github.io/ accesskey=h title="Home (Alt + H)">
-<img src=/apple-touch-icon.png alt=logo aria-label=logo height=35>Home</a>
+<a href=https://echoleung.github.io/ accesskey=h title="Echoleung's Blog (Alt + H)">Echoleung's Blog</a>
 <span class=logo-switches>
 <button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
 </button>
@@ -73,6 +71,22 @@
 </header>
 <article class=post-entry>
 <header class=entry-header>
+<h2>Hugo安装记录
+</h2>
+</header>
+<section class=entry-content>
+<p>安装Hugo 本机的环境是Mac，并且已经安装了Homebrew，直接使用命令安装：
+brew install hugo 在硬盘中选取合适的存储路径，然后命令行中使用如下指令生成网页本地文档：
+hugo new site personal-site Note: 使用 -f 切换到使用yml格式的配置文件，PaperMod主题推荐使用yml
+hugo new site &lt;name of site> -f yml 由此可得到如下文件目录：
+personal-site ├── archetypes ├── config.toml ├── content ├── data ├── layouts ├── static └── themes 常用目录用处如下：
+子目录名称 功能 archetypes 新文章默认模板 config.toml Hugo 配置文档 content 存放所有 Markdown 格式的文章 layouts 存放自定义的 view，可为空 static 存放图像、CNAME、css、js 等资源，发布后该目录下所有资源将处于网页根目录 themes 存放下载的主题 使用下面的命令生成新的文章草稿：...</p>
+</section>
+<footer class=entry-footer><span title="2021-11-13 13:15:02 +0800 CST">November 13, 131311</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Echo</footer>
+<a class=entry-link aria-label="post link to Hugo安装记录" href=https://echoleung.github.io/posts/hugo%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
 <h2>时间复杂度_排序
 </h2>
 </header>
@@ -99,6 +113,17 @@ public class Code_BubbleSort { public static void bubbleSort(int[] arr) { if (ar
 </section>
 <footer class=entry-footer><span title="2021-11-10 18:09:24 +0800 CST">November 10, 101011</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Echo</footer>
 <a class=entry-link aria-label="post link to Hello World" href=https://echoleung.github.io/posts/hello-world/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>My 1st post
+</h2>
+</header>
+<section class=entry-content>
+<p></p>
+</section>
+<footer class=entry-footer><span title="2020-09-15 11:30:03 +0000 +0000">September 15, 15159</span>&nbsp;·&nbsp;0 分钟&nbsp;·&nbsp;Me</footer>
+<a class=entry-link aria-label="post link to My 1st post" href=https://echoleung.github.io/posts/%E6%8E%92%E5%BA%8F/></a>
 </article>
 </main>
 <footer class=footer>

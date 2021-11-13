@@ -6,10 +6,24 @@
     <description>Recent content on Echoleung&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Nov 2021 22:20:51 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 13 Nov 2021 13:15:02 +0800</lastBuildDate>
     
 	<atom:link href="https://echoleung.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hugo安装记录</title>
+      <link>https://echoleung.github.io/posts/hugo%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sat, 13 Nov 2021 13:15:02 +0800</pubDate>
+      
+      <guid>https://echoleung.github.io/posts/hugo%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/</guid>
+      <description>安装Hugo 本机的环境是Mac，并且已经安装了Homebrew，直接使用命令安装：
+brew install hugo 在硬盘中选取合适的存储路径，然后命令行中使用如下指令生成网页本地文档：
+hugo new site personal-site  Note: 使用 -f 切换到使用yml格式的配置文件，PaperMod主题推荐使用yml
+hugo new site &amp;lt;name of site&amp;gt; -f yml  由此可得到如下文件目录：
+personal-site ├── archetypes ├── config.toml ├── content ├── data ├── layouts ├── static └── themes 常用目录用处如下：
+   子目录名称 功能     archetypes 新文章默认模板   config.toml Hugo 配置文档   content 存放所有 Markdown 格式的文章   layouts 存放自定义的 view，可为空   static 存放图像、CNAME、css、js 等资源，发布后该目录下所有资源将处于网页根目录   themes 存放下载的主题    使用下面的命令生成新的文章草稿：</description>
+    </item>
     
     <item>
       <title>时间复杂度_排序</title>
@@ -34,6 +48,33 @@ public class Code_BubbleSort { public static void bubbleSort(int[] arr) { if (ar
       
       <guid>https://echoleung.github.io/posts/hello-world/</guid>
       <description>Hello </description>
+    </item>
+    
+    <item>
+      <title>My 1st post</title>
+      <link>https://echoleung.github.io/posts/%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Tue, 15 Sep 2020 11:30:03 +0000</pubDate>
+      
+      <guid>https://echoleung.github.io/posts/%E6%8E%92%E5%BA%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Archive</title>
+      <link>https://echoleung.github.io/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echoleung.github.io/archives/</guid>
+      <description>archives</description>
+    </item>
+    
+    <item>
+      <title>Search</title>
+      <link>https://echoleung.github.io/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echoleung.github.io/search/</guid>
+      <description>search</description>
     </item>
     
   </channel>
