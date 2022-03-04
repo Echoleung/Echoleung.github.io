@@ -1,6 +1,6 @@
 ---
 title: "MySql优化——索引下推"
-date: 2022-11-01
+date: 2021-11-01
 draft: false
 tags: ["MySq1"]
 categories: ["tech"]
