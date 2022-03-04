@@ -1,0 +1,200 @@
+<!doctype html><html lang=zh dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>MySql优化——索引下推 | Echoleung's Blog</title>
+<meta name=keywords content="MySq1">
+<meta name=description content="基本介绍 索引下推（index condition pushdown ）简称ICP，在Mysql5.6的版本上推出，用于优化查询。
+在不使用ICP的情况下，在使用**非主键索引（又叫普通索引或者二级索引）**进行查询时，存储引擎通过索引检索到数据，然后返回给MySQL服务器，服务器然后判断数据是否符合条件 。
+在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。
+索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数。
+案例 在开始之前先先准备一张用户表(user)，其中主要几个字段有：id、name、age、address。建立联合索引（name，age）。
+假设有一个需求，要求匹配姓名第一个为陈的所有用户，sql语句如下：SELECT * from user where name like '陈%'
+根据 &ldquo;最佳左前缀&rdquo; 的原则，这里使用了联合索引（name，age）进行了查询，性能要比全表扫描肯定要高。
+问题来了，如果有其他的条件呢？假设又有一个需求，要求匹配姓名第一个字为陈，年龄为20岁的用户，此时的sql语句如下：SELECT * from user where name like '陈%' and age=20
+这条sql语句应该如何执行呢？下面对Mysql5.6之前版本和之后版本进行分析。
+Mysql5.6之前的版本 5.6之前的版本是没有索引下推这个优化的，因此执行的过程如下图： 会忽略age这个字段，直接通过name进行查询，在(name,age)这课树上查找到了两个结果，id分别为2,1，然后拿着取到的id值一次次的回表查询，因此这个过程需要回表两次。
+Mysql5.6及之后版本 5.6版本添加了索引下推这个优化，执行的过程如下图： InnoDB并没有忽略age这个字段，而是在索引内部就判断了age是否等于20，对于不等于20的记录直接跳过，因此在(name,age)这棵索引树中只匹配到了一个记录，此时拿着这个id去主键索引树中回表查询全部数据，这个过程只需要回表一次。
+实践 当然上述的分析只是原理上的，我们可以实战分析一下，因此装了Mysql5.6版本的Mysql，解析了上述的语句，如下图： 根据explain解析结果可以看出Extra的值为Using index condition，表示已经使用了索引下推。
+总结 索引下推在非主键索引上的优化，可以有效减少回表的次数，大大提升了查询的效率。
+关闭索引下推可以使用如下命令： set optimizer_switch='index_condition_pushdown=off';">
+<meta name=author content="Echo">
+<link rel=canonical href=https://echoleung.github.io/posts/mysql%E4%BC%98%E5%8C%96%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8/>
+<meta name=google-site-verification content="XYZabc">
+<meta name=yandex-verification content="XYZabc">
+<meta name=msvalidate.01 content="XYZabc">
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.6f60056d44d3f7eb69a4bc6c332b59960f3a995802bded244750232f33713c49.css integrity="sha256-b2AFbUTT9+tppLxsMytZlg86mVgCve0kR1AjLzNxPEk=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://i.loli.net/2021/11/13/Z5teYVOhC4S6Wzc.jpg>
+<link rel=icon type=image/png sizes=16x16 href=https://echoleung.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=32x32 href=https://echoleung.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=apple-touch-icon href=https://echoleung.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=mask-icon href=https://echoleung.github.io/%3Clink%20/%20abs%20url%3E>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.89.2">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="MySql优化——索引下推">
+<meta property="og:description" content="基本介绍 索引下推（index condition pushdown ）简称ICP，在Mysql5.6的版本上推出，用于优化查询。
+在不使用ICP的情况下，在使用**非主键索引（又叫普通索引或者二级索引）**进行查询时，存储引擎通过索引检索到数据，然后返回给MySQL服务器，服务器然后判断数据是否符合条件 。
+在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。
+索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数。
+案例 在开始之前先先准备一张用户表(user)，其中主要几个字段有：id、name、age、address。建立联合索引（name，age）。
+假设有一个需求，要求匹配姓名第一个为陈的所有用户，sql语句如下：SELECT * from user where name like '陈%'
+根据 &ldquo;最佳左前缀&rdquo; 的原则，这里使用了联合索引（name，age）进行了查询，性能要比全表扫描肯定要高。
+问题来了，如果有其他的条件呢？假设又有一个需求，要求匹配姓名第一个字为陈，年龄为20岁的用户，此时的sql语句如下：SELECT * from user where name like '陈%' and age=20
+这条sql语句应该如何执行呢？下面对Mysql5.6之前版本和之后版本进行分析。
+Mysql5.6之前的版本 5.6之前的版本是没有索引下推这个优化的，因此执行的过程如下图： 会忽略age这个字段，直接通过name进行查询，在(name,age)这课树上查找到了两个结果，id分别为2,1，然后拿着取到的id值一次次的回表查询，因此这个过程需要回表两次。
+Mysql5.6及之后版本 5.6版本添加了索引下推这个优化，执行的过程如下图： InnoDB并没有忽略age这个字段，而是在索引内部就判断了age是否等于20，对于不等于20的记录直接跳过，因此在(name,age)这棵索引树中只匹配到了一个记录，此时拿着这个id去主键索引树中回表查询全部数据，这个过程只需要回表一次。
+实践 当然上述的分析只是原理上的，我们可以实战分析一下，因此装了Mysql5.6版本的Mysql，解析了上述的语句，如下图： 根据explain解析结果可以看出Extra的值为Using index condition，表示已经使用了索引下推。
+总结 索引下推在非主键索引上的优化，可以有效减少回表的次数，大大提升了查询的效率。
+关闭索引下推可以使用如下命令： set optimizer_switch='index_condition_pushdown=off';">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://echoleung.github.io/posts/mysql%E4%BC%98%E5%8C%96%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8/"><meta property="og:image" content="https://echoleung.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-11-01T00:00:00+00:00">
+<meta property="article:modified_time" content="2021-11-01T00:00:00+00:00"><meta property="og:site_name" content="Echoleung's Blog">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://echoleung.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name=twitter:title content="MySql优化——索引下推">
+<meta name=twitter:description content="基本介绍 索引下推（index condition pushdown ）简称ICP，在Mysql5.6的版本上推出，用于优化查询。
+在不使用ICP的情况下，在使用**非主键索引（又叫普通索引或者二级索引）**进行查询时，存储引擎通过索引检索到数据，然后返回给MySQL服务器，服务器然后判断数据是否符合条件 。
+在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。
+索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数。
+案例 在开始之前先先准备一张用户表(user)，其中主要几个字段有：id、name、age、address。建立联合索引（name，age）。
+假设有一个需求，要求匹配姓名第一个为陈的所有用户，sql语句如下：SELECT * from user where name like '陈%'
+根据 &ldquo;最佳左前缀&rdquo; 的原则，这里使用了联合索引（name，age）进行了查询，性能要比全表扫描肯定要高。
+问题来了，如果有其他的条件呢？假设又有一个需求，要求匹配姓名第一个字为陈，年龄为20岁的用户，此时的sql语句如下：SELECT * from user where name like '陈%' and age=20
+这条sql语句应该如何执行呢？下面对Mysql5.6之前版本和之后版本进行分析。
+Mysql5.6之前的版本 5.6之前的版本是没有索引下推这个优化的，因此执行的过程如下图： 会忽略age这个字段，直接通过name进行查询，在(name,age)这课树上查找到了两个结果，id分别为2,1，然后拿着取到的id值一次次的回表查询，因此这个过程需要回表两次。
+Mysql5.6及之后版本 5.6版本添加了索引下推这个优化，执行的过程如下图： InnoDB并没有忽略age这个字段，而是在索引内部就判断了age是否等于20，对于不等于20的记录直接跳过，因此在(name,age)这棵索引树中只匹配到了一个记录，此时拿着这个id去主键索引树中回表查询全部数据，这个过程只需要回表一次。
+实践 当然上述的分析只是原理上的，我们可以实战分析一下，因此装了Mysql5.6版本的Mysql，解析了上述的语句，如下图： 根据explain解析结果可以看出Extra的值为Using index condition，表示已经使用了索引下推。
+总结 索引下推在非主键索引上的优化，可以有效减少回表的次数，大大提升了查询的效率。
+关闭索引下推可以使用如下命令： set optimizer_switch='index_condition_pushdown=off';">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://echoleung.github.io/posts/"},{"@type":"ListItem","position":2,"name":"MySql优化——索引下推","item":"https://echoleung.github.io/posts/mysql%E4%BC%98%E5%8C%96%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"MySql优化——索引下推","name":"MySql优化——索引下推","description":"基本介绍 索引下推（index condition pushdown ）简称ICP，在Mysql5.6的版本上推出，用于优化查询。\n在不使用ICP的情况下，在使用**非主键索引（又叫普通索引或者二级索引）**进行查询时，存储引擎通过索引检索到数据，然后返回给MySQL服务器，服务器然后判断数据是否符合条件 。\n在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。\n索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数。\n案例 在开始之前先先准备一张用户表(user)，其中主要几个字段有：id、name、age、address。建立联合索引（name，age）。\n假设有一个需求，要求匹配姓名第一个为陈的所有用户，sql语句如下：SELECT * from user where name like '陈%'\n根据 \u0026ldquo;最佳左前缀\u0026rdquo; 的原则，这里使用了联合索引（name，age）进行了查询，性能要比全表扫描肯定要高。\n问题来了，如果有其他的条件呢？假设又有一个需求，要求匹配姓名第一个字为陈，年龄为20岁的用户，此时的sql语句如下：SELECT * from user where name like '陈%' and age=20\n这条sql语句应该如何执行呢？下面对Mysql5.6之前版本和之后版本进行分析。\nMysql5.6之前的版本 5.6之前的版本是没有索引下推这个优化的，因此执行的过程如下图： 会忽略age这个字段，直接通过name进行查询，在(name,age)这课树上查找到了两个结果，id分别为2,1，然后拿着取到的id值一次次的回表查询，因此这个过程需要回表两次。\nMysql5.6及之后版本 5.6版本添加了索引下推这个优化，执行的过程如下图： InnoDB并没有忽略age这个字段，而是在索引内部就判断了age是否等于20，对于不等于20的记录直接跳过，因此在(name,age)这棵索引树中只匹配到了一个记录，此时拿着这个id去主键索引树中回表查询全部数据，这个过程只需要回表一次。\n实践 当然上述的分析只是原理上的，我们可以实战分析一下，因此装了Mysql5.6版本的Mysql，解析了上述的语句，如下图： 根据explain解析结果可以看出Extra的值为Using index condition，表示已经使用了索引下推。\n总结 索引下推在非主键索引上的优化，可以有效减少回表的次数，大大提升了查询的效率。\n关闭索引下推可以使用如下命令： set optimizer_switch='index_condition_pushdown=off';","keywords":["MySq1"],"articleBody":"基本介绍 索引下推（index condition pushdown ）简称ICP，在Mysql5.6的版本上推出，用于优化查询。\n在不使用ICP的情况下，在使用**非主键索引（又叫普通索引或者二级索引）**进行查询时，存储引擎通过索引检索到数据，然后返回给MySQL服务器，服务器然后判断数据是否符合条件 。\n在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。\n索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数。\n案例 在开始之前先先准备一张用户表(user)，其中主要几个字段有：id、name、age、address。建立联合索引（name，age）。\n假设有一个需求，要求匹配姓名第一个为陈的所有用户，sql语句如下：SELECT * from user where name like '陈%'\n根据 “最佳左前缀” 的原则，这里使用了联合索引（name，age）进行了查询，性能要比全表扫描肯定要高。\n问题来了，如果有其他的条件呢？假设又有一个需求，要求匹配姓名第一个字为陈，年龄为20岁的用户，此时的sql语句如下：SELECT * from user where name like '陈%' and age=20\n这条sql语句应该如何执行呢？下面对Mysql5.6之前版本和之后版本进行分析。\nMysql5.6之前的版本 5.6之前的版本是没有索引下推这个优化的，因此执行的过程如下图： 会忽略age这个字段，直接通过name进行查询，在(name,age)这课树上查找到了两个结果，id分别为2,1，然后拿着取到的id值一次次的回表查询，因此这个过程需要回表两次。\nMysql5.6及之后版本 5.6版本添加了索引下推这个优化，执行的过程如下图： InnoDB并没有忽略age这个字段，而是在索引内部就判断了age是否等于20，对于不等于20的记录直接跳过，因此在(name,age)这棵索引树中只匹配到了一个记录，此时拿着这个id去主键索引树中回表查询全部数据，这个过程只需要回表一次。\n实践 当然上述的分析只是原理上的，我们可以实战分析一下，因此装了Mysql5.6版本的Mysql，解析了上述的语句，如下图： 根据explain解析结果可以看出Extra的值为Using index condition，表示已经使用了索引下推。\n总结 索引下推在非主键索引上的优化，可以有效减少回表的次数，大大提升了查询的效率。\n关闭索引下推可以使用如下命令： set optimizer_switch='index_condition_pushdown=off';\n","wordCount":"50","inLanguage":"zh","datePublished":"2021-11-01T00:00:00Z","dateModified":"2021-11-01T00:00:00Z","author":{"@type":"Person","name":"Echo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://echoleung.github.io/posts/mysql%E4%BC%98%E5%8C%96%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8/"},"publisher":{"@type":"Organization","name":"Echoleung's Blog","logo":{"@type":"ImageObject","url":"https://i.loli.net/2021/11/13/Z5teYVOhC4S6Wzc.jpg"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://echoleung.github.io/ accesskey=h title="Echoleung's Blog (Alt + H)">Echoleung's Blog</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://echoleung.github.io/categories/ title=分类>
+<span>分类</span>
+</a>
+</li>
+<li>
+<a href=https://echoleung.github.io/archives/ title=时间轴>
+<span>时间轴</span>
+</a>
+</li>
+<li>
+<a href=https://echoleung.github.io/tags/ title=标签>
+<span>标签</span>
+</a>
+</li>
+<li>
+<a href=https://echoleung.github.io/search/ title="搜索 (Alt + /)" accesskey=/>
+<span>搜索</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://echoleung.github.io/>主页</a>&nbsp;»&nbsp;<a href=https://echoleung.github.io/posts/>Posts</a></div>
+<h1 class=post-title>
+MySql优化——索引下推
+</h1>
+<div class=post-meta><span title="2021-11-01 00:00:00 +0000 UTC">November 1, 2021</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Echo&nbsp;|&nbsp;<a href=https://github.com/Echoleung/echoleung.github.io/blob/master/content/posts/MySql%e4%bc%98%e5%8c%96%e2%80%94%e2%80%94%e7%b4%a2%e5%bc%95%e4%b8%8b%e6%8e%a8.md rel="noopener noreferrer" target=_blank>编辑</a>
+</div>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>目录</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#%e5%9f%ba%e6%9c%ac%e4%bb%8b%e7%bb%8d aria-label=基本介绍>基本介绍</a></li>
+<li>
+<a href=#%e6%a1%88%e4%be%8b aria-label=案例>案例</a><ul>
+<li>
+<a href=#mysql56%e4%b9%8b%e5%89%8d%e7%9a%84%e7%89%88%e6%9c%ac aria-label=Mysql5.6之前的版本>Mysql5.6之前的版本</a></li>
+<li>
+<a href=#mysql56%e5%8f%8a%e4%b9%8b%e5%90%8e%e7%89%88%e6%9c%ac aria-label=Mysql5.6及之后版本>Mysql5.6及之后版本</a></li></ul>
+</li>
+<li>
+<a href=#%e5%ae%9e%e8%b7%b5 aria-label=实践>实践</a></li>
+<li>
+<a href=#%e6%80%bb%e7%bb%93 aria-label=总结>总结</a>
+</li>
+</ul>
+</div>
+</details>
+</div>
+<div class=post-content><h1 id=基本介绍>基本介绍<a hidden class=anchor aria-hidden=true href=#基本介绍>#</a></h1>
+<p><strong>索引下推</strong>（index condition pushdown ）简称ICP，在<strong>Mysql5.6</strong>的版本上推出，用于优化查询。</p>
+<p>在不使用ICP的情况下，在使用**非主键索引（又叫普通索引或者二级索引）**进行查询时，存储引擎通过索引检索到数据，然后返回给MySQL服务器，服务器然后判断数据是否符合条件 。</p>
+<p>在使用ICP的情况下，如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。</p>
+<p><strong>索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数</strong>。</p>
+<h1 id=案例>案例<a hidden class=anchor aria-hidden=true href=#案例>#</a></h1>
+<p>在开始之前先先准备一张用户表(user)，其中主要几个字段有：id、name、age、address。建立<strong>联合索引（name，age）</strong>。</p>
+<p>假设有一个需求，要求匹配姓名第一个为陈的所有用户，sql语句如下：<code>SELECT * from user where name like '陈%'</code></p>
+<p>根据 &ldquo;最佳左前缀&rdquo; 的原则，这里使用了联合索引（name，age）进行了查询，性能要比全表扫描肯定要高。</p>
+<p><strong>问题来了，如果有其他的条件呢？假设又有一个需求，要求匹配姓名第一个字为陈，年龄为20岁的用户</strong>，此时的sql语句如下：<code>SELECT * from user where name like '陈%' and age=20</code></p>
+<p>这条sql语句应该如何执行呢？下面对Mysql5.6之前版本和之后版本进行分析。</p>
+<h2 id=mysql56之前的版本>Mysql5.6之前的版本<a hidden class=anchor aria-hidden=true href=#mysql56之前的版本>#</a></h2>
+<p>5.6之前的版本是没有索引下推这个优化的，因此执行的过程如下图： <img loading=lazy src=https://gitee.com/chenjiabing666/Blog-file/raw/master/%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8/1.png alt>
+会忽略age这个字段，直接通过name进行查询，在(name,age)这课树上查找到了两个结果，id分别为2,1，然后拿着取到的id值一次次的回表查询，因此这个过程需要<strong>回表两次</strong>。</p>
+<h2 id=mysql56及之后版本>Mysql5.6及之后版本<a hidden class=anchor aria-hidden=true href=#mysql56及之后版本>#</a></h2>
+<p>5.6版本添加了索引下推这个优化，执行的过程如下图： <img loading=lazy src=https://gitee.com/chenjiabing666/Blog-file/raw/master/%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8/2.png alt>
+InnoDB并没有忽略age这个字段，而是在索引内部就判断了age是否等于20，对于不等于20的记录直接跳过，因此在(name,age)这棵索引树中只匹配到了一个记录，此时拿着这个id去主键索引树中回表查询全部数据，这个过程只需要<strong>回表一次</strong>。</p>
+<h1 id=实践>实践<a hidden class=anchor aria-hidden=true href=#实践>#</a></h1>
+<p>当然上述的分析只是原理上的，我们可以实战分析一下，因此装了Mysql5.6版本的Mysql，解析了上述的语句，如下图： <img loading=lazy src=https://gitee.com/chenjiabing666/Blog-file/raw/master/%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8/3.png alt>
+根据explain解析结果可以看出Extra的值为<strong>Using index condition</strong>，表示已经使用了索引下推。</p>
+<h1 id=总结>总结<a hidden class=anchor aria-hidden=true href=#总结>#</a></h1>
+<p>索引下推在<strong>非主键索引</strong>上的优化，可以有效减少回表的次数，大大提升了查询的效率。</p>
+<p>关闭索引下推可以使用如下命令： <code>set optimizer_switch='index_condition_pushdown=off';</code></p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://echoleung.github.io/tags/mysq1/>MySq1</a></li>
+</ul>
+<nav class=paginav>
+<a class=next href=https://echoleung.github.io/posts/mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02mysql%E7%B4%A2%E5%BC%95/>
+<span class=title>下一页 »</span>
+<br>
+<span>MySql学习笔记2——MySql索引</span>
+</a>
+</nav>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2022 <a href=https://echoleung.github.io/>Echoleung's Blog</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>
