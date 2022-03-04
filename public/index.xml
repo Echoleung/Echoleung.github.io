@@ -10,11 +10,11 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://echoleung.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Nov 2021 11:30:03 +0000</lastBuildDate><atom:link href="https://echoleung.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MySql学习笔记2——MySql索引</title>
       <link>https://echoleung.github.io/posts/mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02mysql%E7%B4%A2%E5%BC%95/</link>
-      <pubDate>Mon, 01 Nov 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Nov 2021 11:30:03 +0000</pubDate>
       
       <guid>https://echoleung.github.io/posts/mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02mysql%E7%B4%A2%E5%BC%95/</guid>
       <description>2.1、数据结构及算法基础 2.1.1、索引的本质 MySQL 官方对索引的定义为：索引（Index）是帮助 MySQL 高效获取数据的数据结构。提取主干即可得到索引的本质：索引是一种数据结构。
