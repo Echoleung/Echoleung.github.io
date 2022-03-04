@@ -1,5 +1,5 @@
 ---
-title: "Mysql学习笔记2——mysql索引"
+title: "MySql学习笔记2——MySql索引"
 date: 2021-11-1
 draft: false
 tags: ["MySql"]
