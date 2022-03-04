@@ -1,9 +1,9 @@
 ---
 title: "MySql学习笔记2——MySql索引"
-date: 2021-11-1
+date: 2021-11-01
 draft: false
 tags: ["MySql"]
-categories: [""]
+categories: ["tech"]
 description: ""
 summary: ""
 ---

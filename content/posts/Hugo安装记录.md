@@ -1,6 +1,6 @@
 ---
 title: "Hugo安装记录"
-date: 2021-11-13
+date: 2021-10-09
 draft: true
 tags: ["Hugo"]
 categories: ["tech"]
