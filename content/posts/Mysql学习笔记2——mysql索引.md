@@ -1,7 +1,7 @@
 ---
 title: "Mysql学习笔记2——mysql索引"
 date: 2021-11-1
-draft: true
+draft: false
 tags: ["MySql"]
 categories: [""]
 description: ""

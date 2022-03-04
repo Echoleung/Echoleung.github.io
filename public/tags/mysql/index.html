@@ -3,11 +3,11 @@
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta name=robots content="index, follow">
-<title>Posts | Echoleung's Blog</title>
+<title>MySql | Echoleung's Blog</title>
 <meta name=keywords content>
-<meta name=description content="Posts - Echoleung's Blog">
+<meta name=description content="Shar my life and study">
 <meta name=author content="Echo">
-<link rel=canonical href=https://echoleung.github.io/posts/>
+<link rel=canonical href=https://echoleung.github.io/tags/mysql/>
 <meta name=google-site-verification content="XYZabc">
 <meta name=yandex-verification content="XYZabc">
 <meta name=msvalidate.01 content="XYZabc">
@@ -20,20 +20,19 @@
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
 <meta name=generator content="Hugo 0.89.2">
-<link rel=alternate type=application/rss+xml href=https://echoleung.github.io/posts/index.xml>
+<link rel=alternate type=application/rss+xml href=https://echoleung.github.io/tags/mysql/index.xml>
 <noscript>
 <style>#theme-toggle,.top-link{display:none}</style>
 <style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
 </noscript>
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="Posts">
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="MySql">
 <meta property="og:description" content="Shar my life and study">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://echoleung.github.io/posts/"><meta property="og:image" content="https://echoleung.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="og:site_name" content="Echoleung's Blog">
+<meta property="og:url" content="https://echoleung.github.io/tags/mysql/"><meta property="og:image" content="https://echoleung.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="og:site_name" content="Echoleung's Blog">
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://echoleung.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
-<meta name=twitter:title content="Posts">
+<meta name=twitter:title content="MySql">
 <meta name=twitter:description content="Shar my life and study">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://echoleung.github.io/posts/"}]}</script>
 </head>
 <body class=list id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
@@ -71,46 +70,10 @@
 </nav>
 </header>
 <main class=main>
-<header class=page-header><div class=breadcrumbs><a href=https://echoleung.github.io/>主页</a></div>
-<h1>Posts</h1>
+<header class=page-header><div class=breadcrumbs><a href=https://echoleung.github.io/>主页</a>&nbsp;»&nbsp;<a href=https://echoleung.github.io/tags/>Tags</a></div>
+<h1>MySql</h1>
 </header>
-<article class=post-entry>
-<header class=entry-header>
-<h2>Frp内网穿透
-</h2>
-</header>
-<section class=entry-content>
-<p>准备工作 一台具有公网IP的设备，我用的是腾讯云的主机 需要进行穿透的内网的设备，我的iMac 内网穿透工具 frp 开始安装 服务器安装 下载frp可执行包
-wget https://github.com/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_linux_amd64.tar.gz 解压
-tar -zxf frp_0.38.0_linux_amd64.tar.gz 进入文件
-cd frp_0.38.0_linux_amd64/ 修改配置
-vi frps.ini [common] bind_port = 7000 token = 123456 启动
-./frps -c frps.ini Mac端安装 下载frp可执行包
-https://github.com/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_darwin_amd64.tar.gz 解压
-tar -zxf frp_0.38.0_darwin_amd64.tar.gz 进入文件
-cd frp_0.38.0_darwin_amd64/ 修改配置
-vim frpc.ini [common] server_addr = x.x.x.x # 公网IP server_port = 7000 token = 123456 [ssh] type = tcp local_ip = 127.0.0.1 local_port = 22 remote_port = 7022 [vnc] type = tcp local_ip = 127....</p>
-</section>
-<footer class=entry-footer><span title="2021-11-13 00:00:00 +0000 UTC">November 13, 131311</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;Echo</footer>
-<a class=entry-link aria-label="post link to Frp内网穿透" href=https://echoleung.github.io/posts/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>Hugo安装记录
-</h2>
-</header>
-<section class=entry-content>
-<p>安装Hugo 本机的环境是Mac，并且已经安装了Homebrew，直接使用命令安装：
-brew install hugo 在硬盘中选取合适的存储路径，然后命令行中使用如下指令生成网页本地文档：
-hugo new site personal-site Note: 使用 -f 切换到使用yml格式的配置文件，PaperMod主题推荐使用yml
-hugo new site &lt;name of site> -f yml 由此可得到如下文件目录：
-personal-site ├── archetypes ├── config.toml ├── content ├── data ├── layouts ├── static └── themes 常用目录用处如下：
-子目录名称 功能 archetypes 新文章默认模板 config.toml Hugo 配置文档 content 存放所有 Markdown 格式的文章 layouts 存放自定义的 view，可为空 static 存放图像、CNAME、css、js 等资源，发布后该目录下所有资源将处于网页根目录 themes 存放下载的主题 使用下面的命令生成新的文章草稿：...</p>
-</section>
-<footer class=entry-footer><span title="2021-11-13 00:00:00 +0000 UTC">November 13, 131311</span>&nbsp;·&nbsp;2 分钟&nbsp;·&nbsp;Echo</footer>
-<a class=entry-link aria-label="post link to Hugo安装记录" href=https://echoleung.github.io/posts/hugo%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/></a>
-</article>
-<article class=post-entry>
+<article class="post-entry tag-entry">
 <header class=entry-header>
 <h2>Mysql学习笔记2——mysql索引
 </h2>
