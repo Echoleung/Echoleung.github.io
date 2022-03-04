@@ -6,7 +6,7 @@
     <description>Recent content in frp on Echoleung&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 10 Oct 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://echoleung.github.io/tags/frp/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Frp内网穿透</title>
       <link>https://echoleung.github.io/posts/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</link>
-      <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 10 Oct 2021 00:00:00 +0000</pubDate>
       
       <guid>https://echoleung.github.io/posts/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</guid>
       <description>准备工作  一台具有公网IP的设备，我用的是腾讯云的主机 需要进行穿透的内网的设备，我的iMac 内网穿透工具 frp  开始安装 服务器安装 下载frp可执行包
